@@ -37,12 +37,14 @@ Untuk berhenti, tekan `Ctrl + C` di terminal.
 ## Fitur Dashboard
 
 ### Tab 1: Beranda
+
 - Metric cards: total tweet, jumlah kategori, periode, kategori dominan
 - Grafik distribusi kategori
 - WordCloud keseluruhan
 - Insight singkat
 
 ### Tab 2: Prediksi Keluhan
+
 - Input text area untuk tweet baru
 - Tombol contoh tweet siap pakai
 - Hasil prediksi dengan confidence score
@@ -50,6 +52,7 @@ Untuk berhenti, tekan `Ctrl + C` di terminal.
 - Detail preprocessing teks
 
 ### Tab 3: Eksplorasi Data
+
 - Filter berdasarkan kategori
 - Statistik per kategori
 - Top 10 kata dominan per kategori
@@ -57,6 +60,7 @@ Untuk berhenti, tekan `Ctrl + C` di terminal.
 - Sampel tweet (tabel)
 
 ### Tab 4: Performa Model
+
 - Metric cards: akurasi, precision, recall, F1
 - Confusion matrix (heatmap)
 - Tabel metrik per kategori
@@ -72,19 +76,3 @@ Untuk presentasi yang impressive:
 3. **Tunjukkan Tab 3** untuk demo eksplorasi: pilih kategori, lihat WordCloud
    yang spesifik
 4. **Akhiri di Tab 4** untuk tunjukkan akurasi model secara objektif
-
-## Troubleshooting
-
-**Error: File model not found**  
-Pastikan sudah menjalankan notebook sampai bagian 8 yang menghasilkan file `.pkl`.
-
-**Error: Module not found**  
-Install ulang library yang missing dengan `pip install nama_library`.
-
-**Dashboard lambat saat pertama buka tab Performa**  
-Wajar, karena perlu preprocessing seluruh dataset untuk evaluasi. Setelah itu
-hasil di-cache sehingga akses berikutnya cepat.
-
-**Mau deploy online?**  
-Bisa pakai Streamlit Community Cloud (gratis) — upload code ke GitHub,
-lalu connect ke share.streamlit.io.
