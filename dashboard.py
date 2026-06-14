@@ -52,18 +52,37 @@ def load_stemmer():
 KAMUS_NORMALISASI = {
     'ga': 'tidak', 'gak': 'tidak', 'gk': 'tidak', 'ngga': 'tidak',
     'nggak': 'tidak', 'kagak': 'tidak', 'engga': 'tidak',
+    'enggak': 'tidak', 'tdk': 'tidak', 'tak': 'tidak',
     'bgt': 'banget', 'bngt': 'banget', 'bener': 'benar',
     'gimana': 'bagaimana', 'gmn': 'bagaimana', 'knp': 'kenapa',
-    'napa': 'kenapa', 'udah': 'sudah', 'udh': 'sudah', 'dah': 'sudah',
+    'napa': 'kenapa', 'kenap': 'kenapa', 'udah': 'sudah',
+    'udh': 'sudah', 'dah': 'sudah', 'sdh': 'sudah',
     'blm': 'belum', 'belom': 'belum', 'lg': 'lagi', 'lgi': 'lagi',
     'aja': 'saja', 'aj': 'saja', 'dr': 'dari', 'dri': 'dari',
     'sm': 'sama', 'tp': 'tapi', 'tpi': 'tapi', 'krn': 'karena',
     'karna': 'karena', 'utk': 'untuk', 'buat': 'untuk', 'jd': 'jadi',
     'jdi': 'jadi', 'sy': 'saya', 'gw': 'saya', 'gua': 'saya',
-    'gue': 'saya', 'lu': 'kamu', 'lo': 'kamu', 'min': 'admin',
-    'kak': 'kakak', 'inet': 'internet', 'lemot': 'lambat',
-    'lelet': 'lambat', 'pls': 'tolong', 'plis': 'tolong',
-    'gajelas': 'tidak jelas', 'gabisa': 'tidak bisa', 'gaada': 'tidak ada',
+    'gue': 'saya', 'aq': 'saya', 'aku': 'saya',
+    'lu': 'kamu', 'lo': 'kamu', 'min': 'admin', 'mins': 'admin',
+    'adm': 'admin', 'cs': 'customer service', 'kak': 'kakak',
+    'mas': 'kakak', 'mbak': 'kakak',
+    'inet': 'internet', 'wifi': 'internet', 'wifinya': 'internet',
+    'lemot': 'lambat', 'lelet': 'lambat', 'lag': 'lambat',
+    'ngelag': 'lambat', 'pls': 'tolong', 'plis': 'tolong',
+    'please': 'tolong', 'gajelas': 'tidak jelas',
+    'gabisa': 'tidak bisa', 'gaada': 'tidak ada', 'gada': 'tidak ada',
+    'gbs': 'tidak bisa',
+    'konek': 'terhubung', 'conect': 'terhubung', 'connect': 'terhubung',
+    'connection': 'koneksi', 'error': 'gangguan', 'eror': 'gangguan',
+    'trouble': 'gangguan', 'putus2': 'putus', 'putus-putus': 'putus',
+    'sinyalx': 'sinyal', 'gangguanx': 'gangguan',
+    'buffering': 'lambat', 'loading': 'lambat',
+    'los': 'putus', 'dc': 'putus', 'disconnect': 'putus',
+    'dm': 'pesan', 'bales': 'balas', 'dibales': 'dibalas',
+    'respon': 'respons', 'respond': 'respons', 'komplain': 'keluhan',
+    'komplaint': 'keluhan', 'billing': 'tagihan', 'bill': 'tagihan',
+    'cabut': 'putus langganan', 'berhenti': 'putus langganan',
+    'isolir': 'isolir',
 }
 
 def preprocess_text(teks, stemmer):
@@ -80,11 +99,13 @@ def preprocess_text(teks, stemmer):
     teks = re.sub(r'[^\x00-\x7f]', ' ', teks)
     teks = re.sub(r'\s+', ' ', teks).strip()
     # Normalisasi
-    kata_list = teks.split()
-    kata_list = [KAMUS_NORMALISASI.get(k, k) for k in kata_list]
+    kata_list = []
+    for k in teks.split():
+        kata_list.extend(KAMUS_NORMALISASI.get(k, k).split())
     # Stopword removal
-    stop_id = set(stopwords.words('indonesian')) - {'tidak', 'belum', 'kurang', 'sulit'}
-    kata_list = [k for k in kata_list if k not in stop_id]
+    stop_id = set(stopwords.words('indonesian')) - {'tidak', 'belum', 'kurang', 'sulit', 'jangan', 'bukan', 'tanpa'}
+    stop_id = stop_id | {'indihome', 'indihomecare', 'telkom', 'admin', 'kakak', 'mohon', 'tolong', 'saya', 'kamu'}
+    kata_list = [k for k in kata_list if k not in stop_id and len(k) > 1]
     # Stemming
     kata_list = [stemmer.stem(k) for k in kata_list]
     return ' '.join(kata_list)
